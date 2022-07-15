@@ -8,8 +8,8 @@ const address = {
   list: async () => {
     return await get(endpoints.ADDRESSES);
   },
-  listByCustomer: async id => {
-    return await get(endpoints.ADDRESSES_CUSTOMER_ID, [id]);
+  listByCustomer: async (id, context = null) => {
+    return await get(endpoints.ADDRESSES_CUSTOMER_ID, [id], undefined, context);
   },
   show: async id => {
     return await get(endpoints.ADDRESSES_ID, [id]);

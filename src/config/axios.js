@@ -2,7 +2,6 @@ import axios from 'axios';
 import { parseCookies } from 'nookies';
 
 const { REACT_APP_API_URL } = process.env;
-console.log(REACT_APP_API_URL);
 
 export const enviroment = {
   api_production: 'https://kimo-api-lite.herokuapp.com'
@@ -27,27 +26,30 @@ export function getAPIClient(ctx = undefined) {
 }
 
 
-const get = async (url, pathParams = [], queries = null) => {
+const get = async (url, pathParams = [], queries = null, context = null) => {
   const buildedUrl = buildUrl(url, pathParams, queries);
-  const response = await getAPIClient().get(buildedUrl);
+
+  console.log('buildedUrl: ', buildedUrl);
+
+  const response = await getAPIClient(context).get(buildedUrl);
   return response.data;
 };
 
-const post = async (url, data) => {
+const post = async (url, data, context = null) => {
   const buildedUrl = buildUrl(url);
-  const response = await getAPIClient().post(buildedUrl, data);
+  const response = await getAPIClient(context).post(buildedUrl, data);
   return response.data;
 };
 
-const put = async (url, data, pathParams = []) => {
+const put = async (url, data, pathParams = [], context = null) => {
   const buildedUrl = buildUrl(url, pathParams, null);
-  const response = await getAPIClient().put(buildedUrl, data);
+  const response = await getAPIClient(context).put(buildedUrl, data);
   return response.data;
 };
 
-const del = async (url, pathParams = []) => {
-  const buildedUrl = buildUrl(url, pathParams, null);
-  const response = await getAPIClient().delete(buildedUrl);
+const del = async (url, pathParams = [], context = null) => {
+  const buildedUrl = buildUrl(url, pathParams, null, context);
+  const response = await getAPIClient(context).delete(buildedUrl);
   return response.data;
 };
 

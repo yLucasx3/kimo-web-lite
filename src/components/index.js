@@ -7,6 +7,8 @@ import Product from './Product';
 import RecentlyViewed from './RecentlyViewed';
 import Suggestions from './Suggestions';
 import Warning from './Warning';
+import Account from './Profile/Account';
+import Address from './Profile/Address';
 
 export {
   Banner,
@@ -17,5 +19,7 @@ export {
   Product,
   RecentlyViewed,
   Suggestions,
-  Warning
+  Warning,
+  Account,
+  Address
 };

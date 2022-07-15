@@ -1,7 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { EditIconBlack } from 'assets/icons';
-import { Container } from 'styles/pages/profile/profile.address.styles';
+import { Container } from 'components/Profile/Address/styles';
 import { AuthContext } from 'contexts/AuthContext';
 import PropTypes from 'prop-types';
 import api from 'api';

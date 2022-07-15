@@ -65,6 +65,14 @@ export default function useAuth() {
 					{
 						name: 'kimochism.customer.firstName',
 						value: firstName
+					},
+					{
+						name: 'kimochism.user.id',
+						value: id
+					},
+					{
+						name: 'kimochism.customer.id',
+						value: customer._id
 					}
 				];
 

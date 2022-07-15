@@ -10,6 +10,7 @@ import { RecentlyViewed, Suggestions, Warning } from 'components';
 import { Notification, Menu, Newsletter, Footer  } from 'shared';
 import api from 'api';
 import Image from 'next/image';
+import { parseCookies } from 'nookies';
 
 const Product = ({ product }) => {
 
@@ -17,8 +18,7 @@ const Product = ({ product }) => {
 
 	const { isAuthenticated } = useContext(AuthContext);
 
-	const [defaultProduct, setDefaultProduct] = useState();
-	// const [product, setProduct] = useState();
+	const [defaultProduct, setDefaultProduct] = useState(product);
 	const [availableSizes, setAvailableSizes] = useState([]);
 	const [availableColors, setAvailableColors] = useState([]);
 	const [options, setOptions] = useState({
@@ -43,9 +43,6 @@ const Product = ({ product }) => {
 		}
 	}, [customerBagsStoraged]);
 
-	// useEffect(() => {
-	// 	getProduct();
-	// }, []);
 
 	useEffect(() => {
 		if (product && product.varieties) {
@@ -53,15 +50,6 @@ const Product = ({ product }) => {
 			setAvailableColors(product.varieties.filter((item, index, self) => self.findIndex(variety => (variety.color.name === item.color.name)) === index).map(variety => variety.color));
 		}
 	}, [product]);
-
-	// const getProduct = async () => {
-		
-	// 	const { id } = router.query;
-	// 	const data = await api.products.show(id);
-
-	// 	setProduct(data);
-	// 	setDefaultProduct(data);
-	// };
 
 	const selectSize = (e, size) => {
 
@@ -154,7 +142,7 @@ const Product = ({ product }) => {
 			return;
 		}
 
-		const email = ls.getItem(LS_KEY_USER, 'email');
+		const { 'kimochism.user.email': email } = parseCookies();
 
 		const response = api.customerBags.store({
 			product: product._id,

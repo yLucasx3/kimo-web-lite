@@ -2,8 +2,8 @@ import { del, get, post, put } from 'config/axios';
 import endpoints from 'config/endpoints';
 
 const customerBags = {
-  listByEmail: async email => {
-    return await get(endpoints.CUSTOMER_BAGS_EMAIL, [email]);
+  listByEmail: async (email, context = null) => {
+    return await get(endpoints.CUSTOMER_BAGS_EMAIL, [email], undefined, context);
   },
   store: async data => {
     return await post(endpoints.CUSTOMER_BAGS, data);

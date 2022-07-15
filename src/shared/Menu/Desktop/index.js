@@ -9,18 +9,18 @@ import { AuthContext } from 'contexts/AuthContext';
 const DesktopMenu = ({ options }) => {
 
 	const router = useRouter();
-	
+
 	const { modal, setModal } = useContext(ModalContext);
 	const { isAuthenticated } = useContext(AuthContext);
 
 	const redirectTo = path => {
 
-		if(path === '/profile' && !isAuthenticated) {
-			setModal({...modal, signInUp: true});
+		if (path === '/profile' && !isAuthenticated) {
+			setModal({ ...modal, signInUp: true });
 			return;
 		}
 
-		router.push(path);	
+		router.push(path);
 	};
 
 	return (
@@ -33,8 +33,8 @@ const DesktopMenu = ({ options }) => {
 							{option.label}
 							{option.showIcon &&
 								<span className="option-icon">
-									<Image src={option.icon} alt={option.label} width={'22px'}/>
-								</span> 
+									<Image src={option.icon} alt={option.label} width={'22px'} />
+								</span>
 							}
 						</span>
 					);

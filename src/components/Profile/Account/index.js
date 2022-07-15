@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container } from 'styles/pages/profile/profile.account.styles';
+import { Container } from 'components/Profile/Account/styles';
 import { useRouter } from 'next/router';
 import { AuthContext } from 'contexts/AuthContext';
 import { CheckedIcon, EditIconBlack, EditIconWhite } from 'assets/icons';
