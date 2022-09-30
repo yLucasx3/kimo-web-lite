@@ -9,8 +9,8 @@ export const Container = styled.div`
     justify-content: space-around;
     flex-wrap: wrap-reverse;
     display: flex;
-    a{
-        text-decoration:none;
+    a {
+        text-decoration: none;
     }
     div {
         width: 300px;
@@ -38,9 +38,8 @@ export const Container = styled.div`
         font-size: 34px;
         color: white;
         font-weight: bold;
-        text-shadow: -1px -1px 0px #000, 0px -1px 0px #000, 1px -1px 0px #000,
-        -1px 0px 0px #000, 1px 0px 0px #000, -1px 1px 0px #000, 0px 1px 0px #000,
-        1px 1px 0px #000;
+        text-shadow: -1px -1px 0px #000, 0px -1px 0px #000, 1px -1px 0px #000, -1px 0px 0px #000, 1px 0px 0px #000,
+            -1px 1px 0px #000, 0px 1px 0px #000, 1px 1px 0px #000;
     }
     .socialMedia {
         width: 50px;
@@ -55,9 +54,9 @@ export const Container = styled.div`
 
     @media screen and (max-width: 1160px) {
         footer {
-        justify-content: center;
-        align-content: center;
-        flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            flex-direction: column;
         }
     }
 `;

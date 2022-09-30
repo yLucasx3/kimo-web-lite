@@ -6,31 +6,31 @@ export const Container = styled.div`
     padding: 0px;
     margin: 0px;
     display: flex;
-    img{
+    img {
         width: 110px;
         height: 110px;
         margin-right: 15px;
     }
-    label{
+    label {
         color: black;
     }
-    div{
+    div {
         text-align: left !important;
         width: 360px;
         display: flex;
         flex-direction: column;
         color: black;
-        span:nth-child(1){
+        span:nth-child(1) {
             width: 100%;
             font-weight: bold;
             font-size: 16px;
             margin-bottom: 10px;
         }
-        .msg-toast{
+        .msg-toast {
             width: 100%;
             font-size: 14px;
         }
-        .button-finish{
+        .button-finish {
             cursor: pointer;
             position: absolute;
             width: 120px;
@@ -39,7 +39,7 @@ export const Container = styled.div`
             border: 3px solid black;
             right: 20px;
             bottom: 15px;
-            button{
+            button {
                 font-weight: bold;
                 width: 125px;
                 padding: 8px;

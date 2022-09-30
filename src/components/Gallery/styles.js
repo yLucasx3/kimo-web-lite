@@ -6,24 +6,24 @@ export const Container = styled.div`
     justify-content: center;
     flex-direction: column;
     display: flex;
-    h2{
+    h2 {
         font-size: 34px;
         text-align: center;
         padding: 20px;
     }
-    .gallery-container{
+    .gallery-container {
         max-width: 1360px;
         justify-content: center;
         margin: 0 auto;
         flex-wrap: wrap;
         flex: 1 1 340px;
         display: flex;
-        a{
+        a {
             text-decoration: none;
-            color: ${colors.black}
+            color: ${colors.black};
         }
     }
-    .gallery-box{
+    .gallery-box {
         width: 300px;
         height: auto;
         margin: 1%;
@@ -38,26 +38,26 @@ export const Container = styled.div`
             height: 300px;
         }
     }
-    .gallery-box-title{
+    .gallery-box-title {
         width: 100%;
         text-align: center;
         flex-direction: column;
         display: flex;
-        label{
+        label {
             font-weight: 600;
             padding: 8px;
             letter-spacing: 2px;
         }
-        span{
+        span {
             font-size: 14px;
             font-weight: 500;
             padding: 8px;
             padding-bottom: 50px;
         }
-        i{
+        i {
             text-decoration: line-through;
         }
-        b{
+        b {
             margin-left: 15px;
             padding: 4px 9px;
             border-radius: 50px;
@@ -73,7 +73,7 @@ export const Container = styled.div`
         text-decoration: none;
         display: flex;
     }
-    button{
+    button {
         width: auto;
         margin: 70px auto;
         padding: 18px 100px;
@@ -86,22 +86,21 @@ export const Container = styled.div`
         text-transform: uppercase;
     }
 
-
     @media screen and (max-width: 1490px) {
-        .gallery-container{
+        .gallery-container {
             max-width: 1086px;
         }
     }
     @media screen and (max-width: 1092px) {
-        .gallery-container{
+        .gallery-container {
             max-width: 710px;
         }
     }
     @media screen and (max-width: 720px) {
-        .gallery-container{
+        .gallery-container {
             max-width: 346px;
         }
-        button{
+        button {
             width: 70vw;
         }
     }

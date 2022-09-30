@@ -15,20 +15,19 @@ export const StyledModal = styled(Modal)`
     top: 12%;
     position: absolute;
 
-    
-    border: ${ props => props.withBorder ? '2px solid' + colors.black : '' };
-    
-    top: ${ props => props.isTopScreen ? '3%' : '12%' };
-    left: ${ props => props.isCenterScreen ? '50%' : ''};
-    top: ${ props => props.isCenterScreen ? '50%' : ''};
-    transform: ${ props => props.isCenterScreen ? 'translate(-50%, -50%)' : 'none'};
+    border: ${props => (props.withBorder ? '2px solid' + colors.black : '')};
+
+    top: ${props => (props.isTopScreen ? '3%' : '12%')};
+    left: ${props => (props.isCenterScreen ? '50%' : '')};
+    top: ${props => (props.isCenterScreen ? '50%' : '')};
+    transform: ${props => (props.isCenterScreen ? 'translate(-50%, -50%)' : 'none')};
 
     .header {
         width: 85%;
         display: flex;
         justify-content: space-between;
         padding: 15px 0 15px 0;
-        
+
         span {
             text-transform: uppercase;
             font-weight: bold;

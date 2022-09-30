@@ -3,7 +3,7 @@ import React from 'react';
 import { Container } from './styles';
 
 const Ticket = () => {
-  return <Container />;
+    return <Container />;
 };
 
 export default Ticket;

@@ -5,21 +5,22 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const Banner = () => {
-	return (
-		<Container>
-			<div className="banner-letter">
-				<h1>Roupas e<br /> acessórios<br /> Otaku & Geek</h1>
-				<Link href="/catalog">
-					<button className="btn-primary">
-						checar agora
-					</button>
-				</Link>
-			</div>
-			<div className="banner-image">
-				<Image src={FuelegonImage} alt="Personagem de Anime" />
-			</div>
-		</Container>
-	);
+    return (
+        <Container>
+            <div className="banner-letter">
+                <h1>
+                    Roupas e<br /> acessórios
+                    <br /> Otaku & Geek
+                </h1>
+                <Link href="/catalog">
+                    <button className="btn-primary">checar agora</button>
+                </Link>
+            </div>
+            <div className="banner-image">
+                <Image src={FuelegonImage} alt="Personagem de Anime" />
+            </div>
+        </Container>
+    );
 };
 
 export default Banner;

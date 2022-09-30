@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     cursor: pointer;
-    .box-item-product{
+    .box-item-product {
         margin: 10px;
         width: 266px;
         flex: 1 1 320px;
@@ -10,12 +10,12 @@ export const Container = styled.div`
         flex-direction: column;
         letter-spacing: 1px;
         display: flex;
-        span{
+        span {
             font-weight: 600;
             padding: 8px 0px;
         }
     }
-    .box-item-product-image{
+    .box-item-product-image {
         margin: 0px;
         width: 100%;
         background-size: cover;

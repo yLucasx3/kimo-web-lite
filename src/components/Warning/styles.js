@@ -6,13 +6,13 @@ export const Container = styled.div`
     text-align: center;
     font-size: 14px;
     font-weight: 400;
-    span{
+    span {
         text-transform: uppercase;
         font-weight: 600;
     }
 
-    @media screen and (max-width: 900px){
-        span{
+    @media screen and (max-width: 900px) {
+        span {
             font-size: 12px;
         }
     }

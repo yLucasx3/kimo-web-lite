@@ -2,13 +2,13 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     background-color: white;
-    .collections-h1{
+    .collections-h1 {
         padding: 50px;
         padding-bottom: 0px;
         margin: 0px;
         text-align: center;
     }
-    .container-collections{
+    .container-collections {
         min-height: 58vh;
         justify-content: center;
         align-items: center;
@@ -17,7 +17,7 @@ export const Container = styled.div`
         flex-wrap: wrap;
         display: flex;
     }
-    .box-collection{
+    .box-collection {
         width: 300px;
         height: 368px;
         margin: 15px;
@@ -26,7 +26,7 @@ export const Container = styled.div`
         position: relative;
         display: flex;
         overflow: hidden;
-        span{
+        span {
             letter-spacing: 2px;
             font-size: 20px;
             font-weight: bold;
@@ -34,17 +34,17 @@ export const Container = styled.div`
             text-align: center;
             padding: 20px;
         }
-        img{
+        img {
             width: 300px;
             height: 300px;
         }
     }
-    a{
+    a {
         color: black;
         text-decoration: none;
         cursor: pointer;
     }
-    .hoverEffect{
+    .hoverEffect {
         background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 1));
         bottom: 0px;
         width: 300px;

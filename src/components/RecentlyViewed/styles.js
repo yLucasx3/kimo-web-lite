@@ -5,13 +5,13 @@ export const Container = styled.div`
     align-items: center;
     flex-direction: column;
     display: flex;
-    .medium-hr{
+    .medium-hr {
         width: 50vw;
         margin-top: 80px;
         border-radius: 50px;
         border: 0px solid #ebebeb;
     }
-    h1{
+    h1 {
         width: 65%;
         margin: 0px;
         font-size: 26px;
@@ -20,17 +20,17 @@ export const Container = styled.div`
         padding-bottom: 30px;
         text-transform: uppercase;
     }
-    .latest-suggestions{
+    .latest-suggestions {
         width: auto;
         overflow: auto;
         justify-content: left;
         display: flex;
     }
-    a{
+    a {
         text-decoration: none;
-        color: black
+        color: black;
     }
-    .suggestion{
+    .suggestion {
         max-width: 260px;
         width: 50vw;
         margin: 12px;
@@ -38,12 +38,12 @@ export const Container = styled.div`
         flex-direction: column;
         display: flex;
     }
-    .suggestion-image{
-        img{
+    .suggestion-image {
+        img {
             width: 100%;
         }
     }
-    .suggestion-name{
+    .suggestion-name {
         text-align: center;
         font-size: 14px;
         text-transform: uppercase;
@@ -51,22 +51,22 @@ export const Container = styled.div`
         padding: 8px;
         letter-spacing: 2px;
     }
-    .suggestion-prices{
+    .suggestion-prices {
         padding: 8px;
         font-size: 13.4px;
         justify-content: center;
         display: flex;
-        span{
+        span {
             padding: 8px 8px;
             font-weight: 500;
         }
     }
-    .suggestion-cut-price{
+    .suggestion-cut-price {
         text-decoration: line-through;
     }
 
-    @media screen and (max-width: 985px){
-        .latest-suggestions{
+    @media screen and (max-width: 985px) {
+        .latest-suggestions {
             min-width: unset;
             width: 85vw;
             justify-content: left;

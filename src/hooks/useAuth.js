@@ -5,111 +5,121 @@ import ApiClient from 'config/api';
 import { Router } from 'next/router';
 
 export default function useAuth() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [loading, setLoading] = useState(true);
 
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [email, setEmail] = useState('');
-	const [firstName, setFirstName] = useState('');
-	const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setLoading(true);
 
-	useEffect(() => {
+        const {
+            'kimochism.token': token,
+            'kimochism.customer.firstName': firstName,
+            'kimochism.user.email': email,
+        } = parseCookies();
 
-		setLoading(true);
+        if (token) setIsAuthenticated(true);
+        if (firstName) setFirstName(firstName);
+        if (email) setEmail(email);
 
-		const {
-			'kimochism.token': token,
-			'kimochism.customer.firstName': firstName,
-			'kimochism.user.email': email
-		} = parseCookies();
+        setLoading(false);
+    }, []);
 
-		if (token) setIsAuthenticated(true);
-		if (firstName) setFirstName(firstName);
-		if (email) setEmail(email);
+    const handleLogin = async (email, password) => {
+        const maxAge = 60 * 60 * 1; // 1 hour
 
-		setLoading(false);
-	}, []);
+        const setCookies = cookies => {
+            cookies.map(cookie => {
+                setCookie(undefined, cookie.name, cookie.value, { maxAge });
+            });
+        };
 
-	const handleLogin = async (email, password) => {
+        return await api.users
+            .auth({ email, password })
+            .then(async response => {
+                ApiClient.defaults.headers['Authorization'] = `Bearer ${response.access_token}`;
 
-		const maxAge = 60 * 60 * 1; // 1 hour
+                const { _id: id, email_verified: emailVerified } = response.user;
 
-		const setCookies = (cookies) => {
-			cookies.map(cookie => {
-				setCookie(undefined, cookie.name, cookie.value, { maxAge });
-			});
-		};
+                if (emailVerified) {
+                    setCookie(undefined, 'kimochism.user.emailVerified', emailVerified, { maxAge });
+                }
 
-		return await api.users.auth({ email, password })
-			.then(async response => {
+                const customer = await api.customers.showByUser(id);
 
-				ApiClient.defaults.headers['Authorization'] = `Bearer ${response.access_token}`;
+                const firstName = customer.full_name.split(' ')[0];
 
-				const { _id: id, email_verified: emailVerified } = response.user;
+                const cookies = [
+                    {
+                        name: 'kimochism.token',
+                        value: response.access_token,
+                    },
+                    {
+                        name: 'kimochism.user.email',
+                        value: email,
+                    },
+                    {
+                        name: 'kimochism.customer.firstName',
+                        value: firstName,
+                    },
+                    {
+                        name: 'kimochism.user.id',
+                        value: id,
+                    },
+                    {
+                        name: 'kimochism.customer.id',
+                        value: customer._id,
+                    },
+                ];
 
-				if (emailVerified) {
-					setCookie(undefined, 'kimochism.user.emailVerified', emailVerified, { maxAge });
-				}
+                setCookies(cookies);
+                setEmail(email);
+                setIsAuthenticated(true);
 
-				const customer = await api.customers.showByUser(id);
+                if (!emailVerified) {
+                    return Router.push('/email/confirm');
+                }
 
-				const firstName = customer.full_name.split(' ')[0];
+                return { success: true, message: 'success' };
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 401) {
+                    return {
+                        success: false,
+                        message: 'Email e/ou senha inválido',
+                    };
+                }
 
-				const cookies = [
-					{
-						name: 'kimochism.token',
-						value: response.access_token
-					},
-					{
-						name: 'kimochism.user.email',
-						value: email
-					},
-					{
-						name: 'kimochism.customer.firstName',
-						value: firstName
-					},
-					{
-						name: 'kimochism.user.id',
-						value: id
-					},
-					{
-						name: 'kimochism.customer.id',
-						value: customer._id
-					}
-				];
+                return {
+                    success: false,
+                    message: 'Serviço indisponível, entre em contato com o suporte.',
+                };
+            });
+    };
 
-				setCookies(cookies);
-				setEmail(email);
-				setIsAuthenticated(true);
+    const handleLogout = () => {
+        setIsAuthenticated(false);
 
-				if (!emailVerified) {
-					return Router.push('/email/confirm');
-				}
+        const cookiesToDestroy = Object.keys(parseCookies())
+            .map(cookie => cookie)
+            .filter(cookie => cookie.includes('kimochism'));
 
-				return { success: true, message: 'success' };
-			})
-			.catch(error => {
-				if (error.response && error.response.status === 401) {
-					return { success: false, message: 'Email e/ou senha inválido' };
-				}
+        destroyCookeis(cookiesToDestroy);
+    };
 
-				return { success: false, message: 'Serviço indisponível, entre em contato com o suporte.' };
-			});
-	};
+    const destroyCookeis = cookies => {
+        cookies.map(cookie => {
+            destroyCookie(undefined, cookie, {});
+        });
+    };
 
-	const handleLogout = () => {
-		setIsAuthenticated(false);
-
-		const cookiesToDestroy = Object.keys(parseCookies())
-			.map(cookie => cookie)
-			.filter(cookie => cookie.includes('kimochism'));
-
-		destroyCookeis(cookiesToDestroy);
-	};
-
-	const destroyCookeis = (cookies) => {
-		cookies.map(cookie => {
-			destroyCookie(undefined, cookie, {});
-		});
-	};
-
-	return { isAuthenticated, loading, firstName, email, handleLogin, handleLogout };
+    return {
+        isAuthenticated,
+        loading,
+        firstName,
+        email,
+        handleLogin,
+        handleLogout,
+    };
 }

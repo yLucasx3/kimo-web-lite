@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    position:fixed;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     top: 0;
     left: 0;
     backdrop-filter: blur(2px);
-    
+
     .loading {
         display: flex;
         flex-direction: row;
@@ -30,27 +30,27 @@ export const Container = styled.div`
     }
 
     .loading-letter:nth-child(2) {
-        animation-delay: .1s; 
+        animation-delay: 0.1s;
     }
     .loading-letter:nth-child(3) {
-        animation-delay: .2s;
+        animation-delay: 0.2s;
     }
     .loading-letter:nth-child(4) {
-        animation-delay: .3s; 
+        animation-delay: 0.3s;
     }
     .loading-letter:nth-child(5) {
-        animation-delay: .4s;
+        animation-delay: 0.4s;
     }
     .loading-letter:nth-child(6) {
-        animation-delay: .5s; 
+        animation-delay: 0.5s;
     }
     .loading-letter:nth-child(7) {
-        animation-delay: .6s;
+        animation-delay: 0.6s;
     }
 
     @keyframes bounce {
         0% {
-            transform: translateY(0px)
+            transform: translateY(0px);
         }
         40% {
             transform: translateY(-40px);

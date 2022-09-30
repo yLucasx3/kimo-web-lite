@@ -7,9 +7,9 @@ export const Container = styled.div`
     margin: 0px;
     display: flex;
     align-items: center;
-    img{
-      width: 110px;
-      height: 110px;
-      margin-right: 15px;
+    img {
+        width: 110px;
+        height: 110px;
+        margin-right: 15px;
     }
 `;

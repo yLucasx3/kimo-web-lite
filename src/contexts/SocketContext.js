@@ -8,17 +8,11 @@ const socket = socketio.connect(REACT_APP_API_URL ? REACT_APP_API_URL : envirome
 const SocketContext = React.createContext();
 
 const SocketProvider = ({ children }) => {
-  return (
-    <SocketContext.Provider value={socket}>
-      {children}
-    </SocketContext.Provider>
-  );
+    return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };
 
 SocketProvider.propTypes = {
-  children: PropTypes.node
+    children: PropTypes.node,
 };
 
 export { SocketContext, SocketProvider };
-
-

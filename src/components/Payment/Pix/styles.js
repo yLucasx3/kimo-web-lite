@@ -7,7 +7,7 @@ export const Container = styled.div`
     padding-bottom: 20px;
     font-weight: 600;
     display: flex;
-    #closeModal{
+    #closeModal {
         top: 0px;
         right: 0px;
         border: 0px;
@@ -16,24 +16,24 @@ export const Container = styled.div`
         position: absolute;
         background-color: transparent;
     }
-    .copyCut{
+    .copyCut {
         filter: invert();
     }
-    .paymentId{
+    .paymentId {
         margin-top: 20px;
     }
-    .containerQrCode{
+    .containerQrCode {
         width: 60%;
         align-items: center;
         display: flex;
-        #copyQrCode{
+        #copyQrCode {
             width: 80%;
             font-weight: 600;
             padding: 12px;
             margin: 20px 0px;
             border: 1px solid black;
         }
-        button{
+        button {
             width: 42px;
             height: 42px;
             border: 0px;
@@ -41,15 +41,15 @@ export const Container = styled.div`
             background-color: black;
         }
     }
-    .header{
+    .header {
         background-color: red;
         text-align: center;
-        span{
+        span {
             background-color: red;
             text-align: center;
         }
     }
-    .btn-primary{
+    .btn-primary {
         margin: 20px 10px;
         min-width: 250px;
         padding: 16px;

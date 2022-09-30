@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { EditIconBlack } from 'assets/icons';
 import { Container } from 'components/Profile/Address/styles';
@@ -9,75 +8,89 @@ import ConfirmModal from 'shared/Modal/ConfirmModal';
 import Image from 'next/image';
 
 const Address = ({ handleCreateAddress, handleEditAddress }) => {
+    const [addresses, setAddresses] = useState([]);
+    const [confirmModalIsOpen, setConfirmModalIsOpen] = useState(false);
+    const [addressToDelete, setAddressToDelete] = useState();
 
-	const [addresses, setAddresses] = useState([]);
-	const [confirmModalIsOpen, setConfirmModalIsOpen] = useState(false);
-	const [addressToDelete, setAddressToDelete] = useState();
+    const { email } = useContext(AuthContext);
 
-	const { email } = useContext(AuthContext);
+    useEffect(() => {
+        getAddresses();
+    }, []);
 
-	useEffect(() => {
-		getAddresses();
-	}, []);
+    const getAddresses = async () => {
+        await api.users.showByEmail(email).then(async user => {
+            await api.customers.showByUser(user._id).then(async customer => {
+                await api.addresses.listByCustomer(customer._id).then(addresses => setAddresses(addresses));
+            });
+        });
+    };
 
-	const getAddresses = async () => {
+    const deleteAddress = async id => {
+        await api.addresses.destroy(id).catch(error => console.log(error));
+        await getAddresses();
+    };
 
-		await api.users.showByEmail(email).then(async user => {
-			await api.customers.showByUser(user._id).then(async customer => {
-				await api.addresses.listByCustomer(customer._id).then(addresses => setAddresses(addresses));
-			});
-		});
-	};
+    return (
+        <Container>
+            <div>
+                {/* card de endereço */}
+                {addresses &&
+                    addresses.map(address => {
+                        return (
+                            <div className="container-address-card" key={address._id}>
+                                <div className="container-left-address-card">
+                                    <p>
+                                        <span>
+                                            {address.street}, {address.number}
+                                        </span>
+                                        <span>{address.district}</span>
+                                        <span>CEP: {address.zip_code}</span>
+                                        <span>
+                                            {address.city} - {address.state}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="container-right-address-card">
+                                    <div
+                                        className="action"
+                                        onClick={() => {
+                                            setConfirmModalIsOpen(true);
+                                            setAddressToDelete(address._id);
+                                        }}
+                                    >
+                                        X
+                                    </div>
+                                    <div className="action" onClick={() => handleEditAddress(address)}>
+                                        <Image src={EditIconBlack} alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                {/* fim card endereço */}
 
-	const deleteAddress = async id => {
-		await api.addresses.destroy(id).catch(error => console.log(error));
-		await getAddresses();
-	};
+                <div className="add-new-address" onClick={() => handleCreateAddress()}>
+                    <button>Adicionar novo endereço</button>
+                </div>
+            </div>
 
-	return (
-		<Container>
-			<div>
-				{/* card de endereço */}
-				{addresses && addresses.map(address => {
-					return (
-						<div className="container-address-card" key={address._id}>
-							<div className="container-left-address-card">
-								<p>
-									<span>{address.street}, {address.number}</span>
-									<span>{address.district}</span>
-									<span>CEP: {address.zip_code}</span>
-									<span>{address.city} - {address.state}</span>
-								</p>
-							</div>
-							<div className="container-right-address-card">
-								<div className="action" onClick={() => { setConfirmModalIsOpen(true); setAddressToDelete(address._id); }}>X</div>
-								<div className="action" onClick={() => handleEditAddress(address)}>
-									<Image src={EditIconBlack} alt="" />
-								</div>
-							</div>
-						</div>
-					);
-				})}
-				{/* fim card endereço */}
-
-				<div className="add-new-address" onClick={() => handleCreateAddress()}>
-					<button>Adicionar novo endereço</button>
-				</div>
-			</div>
-
-			<ConfirmModal
-				isOpen={confirmModalIsOpen}
-				message="Tem certeza que deseja excluir esse endereço?"
-				handleClose={() => setConfirmModalIsOpen(false)}
-				handleConfirm={async () => { await deleteAddress(addressToDelete); setConfirmModalIsOpen(false);}}
-			/>
-		</Container>
-	);
+            <ConfirmModal
+                isOpen={confirmModalIsOpen}
+                message="Tem certeza que deseja excluir esse endereço?"
+                handleClose={() => setConfirmModalIsOpen(false)}
+                handleConfirm={async () => {
+                    await deleteAddress(addressToDelete);
+                    setConfirmModalIsOpen(false);
+                }}
+            />
+        </Container>
+    );
 };
 
 Address.propTypes = {
-	handleCreateAddress: PropTypes.func.isRequired,
-	handleEditAddress: PropTypes.func.isRequired
+    handleCreateAddress: PropTypes.func.isRequired,
+    handleEditAddress: PropTypes.func.isRequired,
 };
 
 export default Address;

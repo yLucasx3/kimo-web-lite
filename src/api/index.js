@@ -8,14 +8,14 @@ import orders from './orders';
 import payments from './payments';
 
 export const api = {
-  users,
-  products,
-  customers,
-  customerBags,
-  addresses,
-  freights,
-  orders,
-  payments
+    users,
+    products,
+    customers,
+    customerBags,
+    addresses,
+    freights,
+    orders,
+    payments,
 };
 
 export default api;

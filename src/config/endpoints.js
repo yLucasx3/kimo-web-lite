@@ -1,34 +1,34 @@
 export const endpoints = {
-	AUTH: '/auth/login',
+    AUTH: '/auth/login',
 
-	USERS: '/users',
-	USERS_EMAIL: '/users/email/{email}',
-	USERS_CONFIRM_EMAIL: '/users/confirm/email/{id}',
+    USERS: '/users',
+    USERS_EMAIL: '/users/email/{email}',
+    USERS_CONFIRM_EMAIL: '/users/confirm/email/{id}',
 
-	CUSTOMERS: '/customers',
-	CUSTOMERS_ID: '/customers/{id}',
-	CUSTOMERS_USER_ID: '/customers/user/{user_id}',
+    CUSTOMERS: '/customers',
+    CUSTOMERS_ID: '/customers/{id}',
+    CUSTOMERS_USER_ID: '/customers/user/{user_id}',
 
-	PRODUCTS: '/products',
-	PRODUCTS_ID: '/products/{id}',
+    PRODUCTS: '/products',
+    PRODUCTS_ID: '/products/{id}',
 
-	CUSTOMER_BAGS: '/customerBags',
-	CUSTOMER_BAGS_ID: '/customerBags/{id}',
-	CUSTOMER_BAGS_EMAIL: '/customerBags/email/{email}',
+    CUSTOMER_BAGS: '/customerBags',
+    CUSTOMER_BAGS_ID: '/customerBags/{id}',
+    CUSTOMER_BAGS_EMAIL: '/customerBags/email/{email}',
 
-	FREIGHTS: '/freights',
+    FREIGHTS: '/freights',
 
-	ORDERS: '/orders',
-	ORDERS_ID: '/orders/{id}',
+    ORDERS: '/orders',
+    ORDERS_ID: '/orders/{id}',
 
-	PAYMENTS: '/payments',
-	PAYMENTS_PAID_MARKET_ID: '/payments/paidMarket/{id}',
+    PAYMENTS: '/payments',
+    PAYMENTS_PAID_MARKET_ID: '/payments/paidMarket/{id}',
 
-	ADDRESSES: '/addresses',
-	ADDRESSES_ID: '/addresses/{id}',
-	ADDRESSES_CUSTOMER_ID: '/addresses/customer/{id}',
+    ADDRESSES: '/addresses',
+    ADDRESSES_ID: '/addresses/{id}',
+    ADDRESSES_CUSTOMER_ID: '/addresses/customer/{id}',
 
-	POSTMON: 'https://ws.apicep.com/cep/{cep}.json',
+    POSTMON: 'https://ws.apicep.com/cep/{cep}.json',
 };
 
 export default endpoints;

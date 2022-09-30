@@ -4,32 +4,31 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
 
-    .container-address-card{
+    .container-address-card {
         height: 120px;
         border: 3px solid black;
         margin-bottom: 10px;
-        display:flex;
+        display: flex;
     }
-    .container-left-address-card{
+    .container-left-address-card {
         width: 90%;
         padding: 0px 10px;
-        p{
+        p {
             flex-direction: column;
             display: flex;
-            span{
+            span {
                 padding: 1px 5px;
             }
-            span:nth-child(1){
+            span:nth-child(1) {
                 font-weight: bold;
             }
         }
-        
     }
-    .container-right-address-card{
+    .container-right-address-card {
         width: 12%;
         background-color: black;
         color: white;
-        div{
+        div {
             width: 100%;
             height: 50%;
             font-weight: bold;
@@ -37,16 +36,16 @@ export const Container = styled.div`
             align-items: center;
             display: flex;
         }
-        div:nth-child(2){
+        div:nth-child(2) {
             background-color: white;
             color: black;
         }
-        .action{
+        .action {
             cursor: pointer;
         }
     }
-    .add-new-address{
-        button{
+    .add-new-address {
+        button {
             width: 100%;
             color: white;
             font-size: 16px;
@@ -54,5 +53,4 @@ export const Container = styled.div`
             font-weight: 600;
         }
     }
-
 `;

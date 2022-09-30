@@ -7,296 +7,320 @@ import * as ls from 'utils/localStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
 import { RecentlyViewed, Suggestions, Warning } from 'components';
-import { Notification, Menu, Newsletter, Footer  } from 'shared';
+import { Notification, Menu, Newsletter, Footer } from 'shared';
 import api from 'api';
 import Image from 'next/image';
 import { parseCookies } from 'nookies';
 
 const Product = ({ product }) => {
+    const router = useRouter();
 
-	const router = useRouter();
+    const { isAuthenticated } = useContext(AuthContext);
 
-	const { isAuthenticated } = useContext(AuthContext);
+    const [defaultProduct, setDefaultProduct] = useState(product);
+    const [availableSizes, setAvailableSizes] = useState([]);
+    const [availableColors, setAvailableColors] = useState([]);
+    const [options, setOptions] = useState({
+        color: {
+            name: '',
+            label: '',
+        },
+        size: '',
+    });
+    const [quantity, setQuantity] = useState(1);
+    const [productAddedToCart, setProductAddedToCart] = useState(false);
+    const [freight, setFreight] = useState();
 
-	const [defaultProduct, setDefaultProduct] = useState(product);
-	const [availableSizes, setAvailableSizes] = useState([]);
-	const [availableColors, setAvailableColors] = useState([]);
-	const [options, setOptions] = useState({
-		color: {
-			name: '',
-			label: '',
-		},
-		size: '',
-	});
-	const [quantity, setQuantity] = useState(1);
-	const [productAddedToCart, setProductAddedToCart] = useState(false);
-	const [freight, setFreight] = useState();
+    const sizesRef = useRef(null);
+    const colorsRef = useRef(null);
 
-	const sizesRef = useRef(null);
-	const colorsRef = useRef(null);
+    const [customerBagsStoraged, setCustomerBagsStoraged] = useState(
+        ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || [],
+    );
 
-	const [customerBagsStoraged, setCustomerBagsStoraged] = useState(ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || []);
+    useEffect(() => {
+        if (customerBagsStoraged.customerBags) {
+            ls.storeItem(LS_KEY_CUSTOMER_BAG, customerBagsStoraged);
+        }
+    }, [customerBagsStoraged]);
 
-	useEffect(() => {
-		if (customerBagsStoraged.customerBags) {
-			ls.storeItem(LS_KEY_CUSTOMER_BAG, customerBagsStoraged);
-		}
-	}, [customerBagsStoraged]);
+    useEffect(() => {
+        if (product && product.varieties) {
+            setAvailableSizes(
+                product.varieties
+                    .filter((item, index, self) => self.findIndex(variety => variety.size === item.size) === index)
+                    .map(variety => variety.size),
+            );
+            setAvailableColors(
+                product.varieties
+                    .filter(
+                        (item, index, self) =>
+                            self.findIndex(variety => variety.color.name === item.color.name) === index,
+                    )
+                    .map(variety => variety.color),
+            );
+        }
+    }, [product]);
 
+    const selectSize = (e, size) => {
+        const colors = defaultProduct.varieties.filter(filter => filter.size === size).map(variety => variety.color);
 
-	useEffect(() => {
-		if (product && product.varieties) {
-			setAvailableSizes(product.varieties.filter((item, index, self) => self.findIndex(variety => (variety.size === item.size)) === index).map(variety => variety.size));
-			setAvailableColors(product.varieties.filter((item, index, self) => self.findIndex(variety => (variety.color.name === item.color.name)) === index).map(variety => variety.color));
-		}
-	}, [product]);
+        setAvailableColors(colors);
 
-	const selectSize = (e, size) => {
+        const { childNodes } = sizesRef.current;
 
-		const colors = defaultProduct.varieties.filter(filter => filter.size === size).map(variety => variety.color);
+        for (let child of childNodes) {
+            child.classList.remove('selected');
+        }
 
-		setAvailableColors(colors);
+        setOptions({ ...options, size });
+        e.currentTarget.classList.add('selected');
+    };
 
-		const { childNodes } = sizesRef.current;
+    const selectColor = (e, color) => {
+        const sizes = defaultProduct.varieties
+            .filter(filter => filter.color.name === color.name)
+            .map(variety => variety.size);
 
-		for (let child of childNodes) {
-			child.classList.remove('selected');
-		}
+        setAvailableSizes(sizes);
 
-		setOptions({ ...options, size });
-		e.currentTarget.classList.add('selected');
-	};
+        const { childNodes } = colorsRef.current;
 
-	const selectColor = (e, color) => {
-		const sizes = defaultProduct.varieties.filter(filter => filter.color.name === color.name).map(variety => variety.size);
+        for (let child of childNodes) {
+            child.classList.remove('selected-color');
+        }
 
-		setAvailableSizes(sizes);
+        setOptions({ ...options, color });
+        e.currentTarget.classList.add('selected-color');
+    };
 
-		const { childNodes } = colorsRef.current;
+    const addCustomerBagToStoraged = () => {
+        if (customerBagsStoraged.length <= 0) {
+            setCustomerBagsStoraged({ customerBags: [{ id: uuidv4(), quantity, options, productId: product._id }] });
+            return;
+        }
 
-		for (let child of childNodes) {
-			child.classList.remove('selected-color');
-		}
+        const allCustomerBagsStoraged = customerBagsStoraged.customerBags || customerBagsStoraged;
 
-		setOptions({ ...options, color });
-		e.currentTarget.classList.add('selected-color');
-	};
+        const customerBagExistsInStorageIndex = allCustomerBagsStoraged.findIndex(customerBagStoraged => {
+            return (
+                customerBagStoraged.productId === product._id &&
+                customerBagStoraged.options.color.name === options.color.name &&
+                customerBagStoraged.options.size === options.size
+            );
+        });
 
-	const addCustomerBagToStoraged = () => {
-		if (customerBagsStoraged.length <= 0) {
-			setCustomerBagsStoraged({ customerBags: [{ id: uuidv4(), quantity, options, productId: product._id }] });
-			return;
-		}
+        if (customerBagExistsInStorageIndex !== -1) {
+            allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity =
+                allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity + quantity;
+            setCustomerBagsStoraged({ customerBags: allCustomerBagsStoraged });
+            return;
+        }
 
-		const allCustomerBagsStoraged = customerBagsStoraged.customerBags || customerBagsStoraged;
+        setCustomerBagsStoraged({
+            customerBags: allCustomerBagsStoraged.concat({
+                id: uuidv4(),
+                quantity,
+                options,
+                productId: product._id,
+            }),
+        });
+    };
 
-		const customerBagExistsInStorageIndex = allCustomerBagsStoraged.findIndex((customerBagStoraged) => {
-			return customerBagStoraged.productId === product._id &&
-				customerBagStoraged.options.color.name === options.color.name &&
-				customerBagStoraged.options.size === options.size;
-		});
+    const addProductToBag = () => {
+        if (productAddedToCart) return;
 
-		if (customerBagExistsInStorageIndex !== -1) {
-			allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity = allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity + quantity;
-			setCustomerBagsStoraged({ customerBags: allCustomerBagsStoraged });
-			return;
-		}
+        if (!options.size) {
+            toast('Escolha um tamanho!', {
+                hideProgressBar: true,
+                position: toast.POSITION.TOP_CENTER,
+            });
+            return;
+        }
 
-		setCustomerBagsStoraged({
-			customerBags: allCustomerBagsStoraged.concat({
-				id: uuidv4(),
-				quantity,
-				options,
-				productId: product._id
-			})
-		});
-	};
+        if (!options.color.name || !options.color.label) {
+            toast('Escolha uma cor!', {
+                hideProgressBar: true,
+                position: toast.POSITION.TOP_CENTER,
+            });
+            return;
+        }
 
-	const addProductToBag = () => {
+        if (!isAuthenticated) {
+            addCustomerBagToStoraged();
+            toast(<Notification router={router} options={options} />, {
+                hideProgressBar: true,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            productAddedToCartDelay();
+            return;
+        }
 
-		if (productAddedToCart) return;
+        const { 'kimochism.user.email': email } = parseCookies();
 
-		if (!options.size) {
-			toast('Escolha um tamanho!', {
-				hideProgressBar: true,
-				position: toast.POSITION.TOP_CENTER,
-			});
-			return;
-		}
+        const response = api.customerBags.store({
+            product: product._id,
+            quantity,
+            options,
+            email,
+        });
 
-		if (!options.color.name || !options.color.label) {
-			toast('Escolha uma cor!', {
-				hideProgressBar: true,
-				position: toast.POSITION.TOP_CENTER,
-			});
-			return;
-		}
+        if (response) {
+            toast(<Notification history={history} options={options} />, {
+                hideProgressBar: true,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            productAddedToCartDelay();
+        }
 
-		if (!isAuthenticated) {
-			addCustomerBagToStoraged();
-			toast(<Notification router={router} options={options} />, {
-				hideProgressBar: true,
-				position: toast.POSITION.TOP_RIGHT,
-			});
-			productAddedToCartDelay();
-			return;
-		}
+        if (!response) {
+            toast('Erro ao adicionar produto ao carrinho, fale com a equipe de suporte', {
+                hideProgressBar: true,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+    };
 
-		const { 'kimochism.user.email': email } = parseCookies();
+    const productAddedToCartDelay = () => {
+        setProductAddedToCart(true);
+        setTimeout(() => {
+            setProductAddedToCart(false);
+        }, 3000);
+    };
 
-		const response = api.customerBags.store({
-			product: product._id,
-			quantity,
-			options,
-			email
-		});
+    const calculateZipCode = async e => {
+        const data = {
+            sCepOrigem: '08150020',
+            sCepDestino: '08150080',
+            nVlPeso: '0.2',
+            nCdFormato: '1',
+            nVlComprimento: '15',
+            nVlAltura: '5',
+            nVlLargura: '15',
+            nCdServico: ['40010'],
+            nVlDiametro: '0',
+        };
 
-		if (response) {
-			toast(<Notification history={history} options={options} />, {
-				hideProgressBar: true,
-				position: toast.POSITION.TOP_RIGHT,
-			});
-			productAddedToCartDelay();
-		}
+        if (e.target.value.length >= 8) {
+            const response = await api.freights.store(data);
 
-		if (!response) {
-			toast('Erro ao adicionar produto ao carrinho, fale com a equipe de suporte', {
-				hideProgressBar: true,
-				position: toast.POSITION.TOP_RIGHT,
-			});
-		}
-	};
+            if (response[0].Valor) {
+                setFreight(response[0].Valor);
+            } else {
+                setFreight('---');
+            }
+        }
+    };
 
-	const productAddedToCartDelay = () => {
-		setProductAddedToCart(true);
-		setTimeout(() => {
-			setProductAddedToCart(false);
-		}, 3000);
-	};
+    return (
+        <Container>
+            <Menu />
+            <Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
+            {product && (
+                <div className="product-container">
+                    <div className="product-left">
+                        <Image
+                            src={product.images[0].url}
+                            width={2500}
+                            height={2500}
+                            layout="responsive"
+                            alt="Foto do produto"
+                        />
+                    </div>
 
-	const calculateZipCode = async (e) => {
-		const data = {
-			sCepOrigem: '08150020',
-			sCepDestino: '08150080',
-			nVlPeso: '0.2',
-			nCdFormato: '1',
-			nVlComprimento: '15',
-			nVlAltura: '5',
-			nVlLargura: '15',
-			nCdServico: ['40010'],
-			nVlDiametro: '0',
-		};
-
-		if (e.target.value.length >= 8) {
-			const response = await api.freights.store(data);
-
-			if (response[0].Valor) {
-				setFreight(response[0].Valor);
-			} else {
-				setFreight('---');
-			}
-		}
-	};
-
-	return (
-		<Container>
-			<Menu />
-			<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
-			{product &&
-				<div className="product-container">
-					<div className="product-left">
-						<Image src={product.images[0].url} alt="Foto do produto" height="700px" width="100%"/>
-					</div>
-
-					<div className="product-right">
-						<div className="product-buy chama">
-							<h4>{product.name}</h4>
-							<span><b>KIMOCHISM 気持ち</b></span>
-							<hr className='medium-hr'/>
-							<div className="product-price">
-								<span>R$ {parseFloat(product.discount_price).toFixed(2)}</span>
-								<span>Até 8x de {product.price / 8}</span>
-							</div>
-							<div className="product-size">
-								<div>
-									<span>Tamanhos</span>
-								</div>
-								<div ref={sizesRef}>
-									{availableSizes && availableSizes.map(availableSize =>
-										<div
-											onClick={(e) => selectSize(e, availableSize)}
-											className="product-size-box" key={availableSize}>
-											{availableSize}
-										</div>
-									)
-									}
-								</div>
-							</div>
-							<div className="product-color">
-								<div>
-									<span>Cores</span>
-								</div>
-								<div ref={colorsRef}>
-									{availableColors && availableColors.map(availableColor =>
-										<div
-											key={availableColor.name}
-											className="product-color-content"
-											onClick={(e) => selectColor(e, availableColor)}>
-											<div className={`product-color-box bg-${availableColor.name}`}></div>
-										</div>
-									)
-									}
-								</div>
-							</div>
-							<div className="product-quantity">
-								<div>
-									<span>Quantidade</span>
-								</div>
-								<div>
-									<button onClick={() => quantity <= 1 ? 1 : setQuantity(quantity - 1)}> - </button>
-									<label>{quantity}</label>
-									<button onClick={() => setQuantity(quantity + 1)}> + </button>
-								</div>
-							</div>
-						</div>
-						<div className="product-cep">
-							<span>Calcule o seu Frete</span>
-							<input placeholder="00000-000" onChange={e => calculateZipCode(e)} maxLength="8" />
-							<a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="blank">Não sabe seu cep? Pesquise aqui &gt; </a>
-							{(freight && freight !== 0) && <span>Taxa de entrega SEDEX: &nbsp; {freight}</span>}
-						</div>
-						<div className="product-social-media">
-							<span>
-								<a href="https://www.instagram.com/kimochism.store/" target="blank">
-									Veja quem comprou esse,
-									e outros produtos no nosso Instagram ;)
-								</a>
-							</span>
-						</div>
-						<div onClick={() => addProductToBag()} className="product-button">
-							<button>{productAddedToCart ? 'Produto adicionado a sacola' : 'Adicionar a sacola'}</button>
-						</div>
-					</div>
-				</div>
-			}
-			<Suggestions />
-			<RecentlyViewed/>
-			<Newsletter />
-			<Footer />
-		</Container>
-	);
+                    <div className="product-right">
+                        <div className="product-buy chama">
+                            <h4>{product.name}</h4>
+                            <span>
+                                <b>KIMOCHISM 気持ち</b>
+                            </span>
+                            <hr className="medium-hr" />
+                            <div className="product-price">
+                                <span>R$ {parseFloat(product.discount_price).toFixed(2)}</span>
+                                <span>Até 8x de {product.price / 8}</span>
+                            </div>
+                            <div className="product-size">
+                                <div>
+                                    <span>Tamanhos</span>
+                                </div>
+                                <div ref={sizesRef}>
+                                    {availableSizes &&
+                                        availableSizes.map(availableSize => (
+                                            <div
+                                                onClick={e => selectSize(e, availableSize)}
+                                                className="product-size-box"
+                                                key={availableSize}
+                                            >
+                                                {availableSize}
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                            <div className="product-color">
+                                <div>
+                                    <span>Cores</span>
+                                </div>
+                                <div ref={colorsRef}>
+                                    {availableColors &&
+                                        availableColors.map(availableColor => (
+                                            <div
+                                                key={availableColor.name}
+                                                className="product-color-content"
+                                                onClick={e => selectColor(e, availableColor)}
+                                            >
+                                                <div className={`product-color-box bg-${availableColor.name}`}></div>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                            <div className="product-quantity">
+                                <div>
+                                    <span>Quantidade</span>
+                                </div>
+                                <div>
+                                    <button onClick={() => (quantity <= 1 ? 1 : setQuantity(quantity - 1))}> - </button>
+                                    <label>{quantity}</label>
+                                    <button onClick={() => setQuantity(quantity + 1)}> + </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="product-cep">
+                            <span>Calcule o seu Frete</span>
+                            <input placeholder="00000-000" onChange={e => calculateZipCode(e)} maxLength="8" />
+                            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="blank">
+                                Não sabe seu cep? Pesquise aqui &gt;{' '}
+                            </a>
+                            {freight && freight !== 0 && <span>Taxa de entrega SEDEX: &nbsp; {freight}</span>}
+                        </div>
+                        <div className="product-social-media">
+                            <span>
+                                <a href="https://www.instagram.com/kimochism.store/" target="blank">
+                                    Veja quem comprou esse, e outros produtos no nosso Instagram ;)
+                                </a>
+                            </span>
+                        </div>
+                        <div onClick={() => addProductToBag()} className="product-button">
+                            <button>{productAddedToCart ? 'Produto adicionado a sacola' : 'Adicionar a sacola'}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <Suggestions />
+            <RecentlyViewed />
+            <Newsletter />
+            <Footer />
+        </Container>
+    );
 };
 
-
 export const getServerSideProps = async ({ query }) => {
+    const product = await api.products.show(query.id);
 
-	const product = await api.products.show(query.id);
-
-	return {
-		props: {
-			product
-		}
-	};
+    return {
+        props: {
+            product,
+        },
+    };
 };
 
 export default Product;

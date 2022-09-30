@@ -3,51 +3,51 @@ import styled from 'styled-components';
 export const Container = styled.div`
     flex-direction: column;
     display: flex;
-    .container-filter-name{
+    .container-filter-name {
         padding: 12px 0px;
         padding-top: 0px;
         font-weight: bold;
     }
-    .filter-search{
+    .filter-search {
         border: 2px solid black;
         display: flex;
-        input{
+        input {
             width: 100%;
             padding: 12px;
             border: 0px;
         }
-        button{
+        button {
             padding: 8px 18px;
             background-color: transparent;
             border-radius: 0px;
             border: 0px;
             cursor: pointer;
-            img{
+            img {
                 filter: invert(1);
             }
         }
     }
-    .filter{
+    .filter {
         width: 275px;
         border-right: 1px solid #dbdbdb;
         height: 500px;
         margin-top: 20px;
         background-color: white;
     }
-    .item-filter{
+    .item-filter {
         cursor: pointer;
         padding: 8px;
         align-items: center;
         display: flex;
-        &:hover{
+        &:hover {
             background-color: #efefef;
         }
-        input{
+        input {
             border: 1px solid black;
             color: black;
             cursor: pointer;
         }
-        .title-filter-item{
+        .title-filter-item {
             padding-left: 12px;
             font-weight: 600;
             letter-spacing: 1px;
@@ -55,17 +55,16 @@ export const Container = styled.div`
         }
     }
 
-    @media screen and (max-width: 780px){
+    @media screen and (max-width: 780px) {
         display: none;
     }
 
-
     /* Checkbox */
-    .checkbox-wrapper{
+    .checkbox-wrapper {
         top: 50%;
         left: 50%;
     }
-    .checkmark{
+    .checkmark {
         display: block;
         width: 20px;
         height: 20px;
@@ -75,8 +74,8 @@ export const Container = styled.div`
         transition: background-color 0.4s;
         cursor: pointer;
     }
-    .checkmark::after{
-        content: "";
+    .checkmark::after {
+        content: '';
         position: absolute;
         width: 5px;
         height: 10px;
@@ -84,57 +83,56 @@ export const Container = styled.div`
         border-bottom: 3px solid white;
         top: 40%;
         left: 50%;
-        transform: translate(-50%,-50%) rotateZ(40deg);
+        transform: translate(-50%, -50%) rotateZ(40deg);
         opacity: 0;
         transition: all 0.4s;
     }
 
     /* camiseta */
-    #camiseta:checked ~ .checkmark{
+    #camiseta:checked ~ .checkmark {
         background-color: black;
     }
-    #camiseta:checked ~ .checkmark::after{
+    #camiseta:checked ~ .checkmark::after {
         opacity: 1;
     }
 
     /* moletom */
-    #moletom:checked ~ .checkmark{
+    #moletom:checked ~ .checkmark {
         background-color: black;
     }
-    #moletom:checked ~ .checkmark::after{
+    #moletom:checked ~ .checkmark::after {
         opacity: 1;
     }
 
     /* acessorios */
-    #acessorios:checked ~ .checkmark{
+    #acessorios:checked ~ .checkmark {
         background-color: black;
     }
-    #acessorios:checked ~ .checkmark::after{
+    #acessorios:checked ~ .checkmark::after {
         opacity: 1;
     }
 
     /* canecas */
-    #canecas:checked ~ .checkmark{
+    #canecas:checked ~ .checkmark {
         background-color: black;
     }
-    #canecas:checked ~ .checkmark::after{
+    #canecas:checked ~ .checkmark::after {
         opacity: 1;
     }
 
     /* diversos */
-    #diversos:checked ~ .checkmark{
+    #diversos:checked ~ .checkmark {
         background-color: black;
     }
-    #diversos:checked ~ .checkmark::after{
+    #diversos:checked ~ .checkmark::after {
         opacity: 1;
     }
 
     /* outros */
-    #outros:checked ~ .checkmark{
+    #outros:checked ~ .checkmark {
         background-color: black;
     }
-    #outros:checked ~ .checkmark::after{
+    #outros:checked ~ .checkmark::after {
         opacity: 1;
     }
 `;
-

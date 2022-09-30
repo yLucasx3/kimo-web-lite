@@ -3,22 +3,22 @@ import { colors } from 'config/variables';
 
 export const Container = styled.div`
     background-color: white;
-    .container-profile{
+    .container-profile {
         min-height: 600px;
         padding: 80px;
         padding-bottom: 120px;
         justify-content: center;
         display: flex;
     }
-    .profile-left{
+    .profile-left {
         width: 265px;
         height: auto;
     }
-    .input-disabled{
+    .input-disabled {
         background: ${colors.gray2};
     }
-    .profile-btn-option{
-        button{
+    .profile-btn-option {
+        button {
             width: 100%;
             background-color: black;
             margin-top: 29px;
@@ -32,25 +32,25 @@ export const Container = styled.div`
             cursor: pointer;
             text-transform: Capital;
             display: flex;
-            span{
+            span {
                 width: 100%;
             }
         }
-        button:nth-child(1){
+        button:nth-child(1) {
             margin-top: 0px;
         }
     }
 
     /* right */
 
-    .profile-right{
+    .profile-right {
         width: 550px;
         padding: 0px 100px;
         padding-right: 0px;
         align-items: flex-end;
         flex-direction: column;
         display: flex;
-        button{
+        button {
             cursor: pointer;
             width: 264px;
             height: 50px;
@@ -63,16 +63,16 @@ export const Container = styled.div`
             justify-content: center;
         }
     }
-    .profile-picture-and-name{
+    .profile-picture-and-name {
         width: 550px;
         align-items: center;
         display: flex;
-        span{
+        span {
             margin-left: 25px;
             font-weight: bold;
         }
     }
-    .profile-picture{
+    .profile-picture {
         width: 100px;
         height: 100px;
         background-color: black;
@@ -81,14 +81,14 @@ export const Container = styled.div`
         border: 4px solid black;
         border-radius: 50%;
     }
-    .profile-account-form{
+    .profile-account-form {
         width: 550px;
         height: 260px;
         padding-top: 50px;
         justify-content: space-between;
         flex-direction: column;
         display: flex;
-        label{
+        label {
             font-weight: 600;
             padding-bottom: 8px;
         }
@@ -97,39 +97,39 @@ export const Container = styled.div`
             color: ${colors.red1};
             cursor: pointer;
         }
-        input{
+        input {
             padding: 15px;
             border: 2px solid black;
         }
-        div{
+        div {
             justify-content: space-between;
             width: 100%;
             display: flex;
-            div{
+            div {
                 width: 48%;
                 flex-direction: column;
                 display: flex;
-                input{
+                input {
                     width: auto;
                 }
             }
         }
     }
-    .profile-input-is-not{
+    .profile-input-is-not {
         flex-direction: column;
-        .input-with-icon{
+        .input-with-icon {
             position: relative;
             width: 100%;
             direction: rtl;
-            input{
+            input {
                 text-align: left;
             }
-            img{
-                position:absolute;
-                bottom:25%;
-                right:15px;
-                width:24px;
-                height:24px;
+            img {
+                position: absolute;
+                bottom: 25%;
+                right: 15px;
+                width: 24px;
+                height: 24px;
                 cursor: pointer;
             }
         }

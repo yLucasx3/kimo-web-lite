@@ -10,14 +10,14 @@ import Notification from './Notification';
 import NotificationError from './NotificationError';
 
 export {
-  Fallback,
-  Footer,
-  Menu,
-  AddressSelector,
-  BaseModal,
-  ConfirmModal,
-  SignInUp,
-  Newsletter,
-  Notification,
-  NotificationError
+    Fallback,
+    Footer,
+    Menu,
+    AddressSelector,
+    BaseModal,
+    ConfirmModal,
+    SignInUp,
+    Newsletter,
+    Notification,
+    NotificationError,
 };

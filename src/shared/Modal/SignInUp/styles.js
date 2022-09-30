@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { sizes } from '../../../config/variables';
 
 export const Container = styled.div`
-    
     display: flex;
     justify-content: center;
 
@@ -42,10 +41,10 @@ export const Container = styled.div`
                 font-weight: bold;
                 font-size: 16px;
                 cursor: pointer;
-                text-transform: uppercase
-		    }
-	    }
-        
+                text-transform: uppercase;
+            }
+        }
+
         p {
             text-align: center;
             padding: 40px 0px 20px 0px;
@@ -86,13 +85,12 @@ export const Container = styled.div`
 
             p {
                 text-align: center;
-                padding: ${props => props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px'};
+                padding: ${props => (props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px')};
                 font-size: 12px;
             }
         }
 
         @media screen and (max-width: ${sizes.md}) {
-
             input {
                 padding: 12px;
             }
@@ -100,11 +98,11 @@ export const Container = styled.div`
             .product-button {
                 padding-top: 25px;
             }
-            
+
             p {
                 text-align: center;
-                /* padding: ${props => props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px'}; */
-                padding: ${props => props.error && !props.isSignIn ? '0px' : ''};
+                /* padding: ${props => (props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px')}; */
+                padding: ${props => (props.error && !props.isSignIn ? '0px' : '')};
                 font-size: 14px;
             }
         }

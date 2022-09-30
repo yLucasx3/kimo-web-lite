@@ -16,13 +16,13 @@ export const Container = styled.div`
         padding: 20px;
         align-items: center;
         display: flex;
-        img{
+        img {
             width: 60px;
         }
-        span{
+        span {
             padding-left: 10px;
         }
-        &:hover{
+        &:hover {
             background-color: #e0e0e0;
             cursor: pointer;
         }
@@ -42,6 +42,6 @@ export const Container = styled.div`
         font-size: 16px;
         cursor: pointer;
         text-transform: uppercase;
-        box-shadow: -6px 5px 0 #fff, -12px 10px 0 rgba(0,0,0,1);
+        box-shadow: -6px 5px 0 #fff, -12px 10px 0 rgba(0, 0, 0, 1);
     }
 `;

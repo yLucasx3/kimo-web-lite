@@ -3,55 +3,55 @@ import styled from 'styled-components';
 export const Container = styled.div`
     background-color: white;
     margin: 0 auto;
-    .title-catalog{
+    .title-catalog {
         padding: 40px;
         text-transform: uppercase;
         text-align: center;
     }
-    .container-catalog{
+    .container-catalog {
         padding: 0 140px;
         justify-content: center;
         display: flex;
     }
-    .container-catalog-left{
+    .container-catalog-left {
         padding-top: 170px;
     }
     /* right */
-    .container-catalog-right{
+    .container-catalog-right {
         width: 1200px;
         padding: 0px 0px;
         justify-content: center;
         flex-wrap: wrap;
         display: flex;
-        a{
+        a {
             color: black;
             text-decoration: none;
         }
     }
     /* Media Query */
     @media screen and (max-width: 1540px) {
-        .container-catalog-right{
+        .container-catalog-right {
             width: 900px;
             justify-content: center;
             align-items: center;
         }
     }
-    @media screen and (max-width: 1240px){
-        .container-catalog-right{
+    @media screen and (max-width: 1240px) {
+        .container-catalog-right {
             width: auto;
             padding: 0px;
         }
     }
     /* aux */
-    .aux-cont{
+    .aux-cont {
         flex-direction: column;
         align-items: center;
         padding-bottom: 100px;
         display: flex;
     }
-    .pages-buttons{
+    .pages-buttons {
         padding-top: 50px;
-        button{
+        button {
             width: 40px;
             height: 40px;
             font-size: 16px;

@@ -11,15 +11,15 @@ import Account from './Profile/Account';
 import Address from './Profile/Address';
 
 export {
-  Banner,
-  Filter,
-  Gallery,
-  NoProducts,
-  Payment,
-  Product,
-  RecentlyViewed,
-  Suggestions,
-  Warning,
-  Account,
-  Address
+    Banner,
+    Filter,
+    Gallery,
+    NoProducts,
+    Payment,
+    Product,
+    RecentlyViewed,
+    Suggestions,
+    Warning,
+    Account,
+    Address,
 };

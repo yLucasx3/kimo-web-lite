@@ -10,18 +10,18 @@ export const Container = styled.div`
     align-items: center;
     display: flex;
 
-    .banner-letter{
+    .banner-letter {
         width: 640px;
         flex-direction: column;
         align-items: center;
         display: flex;
-        h1{
+        h1 {
             margin: 0px;
             font-size: 85px;
             letter-spacing: 2px;
         }
     }
-    .btn-primary{
+    .btn-primary {
         margin-top: 120px;
         width: 360px;
         padding: 20px;
@@ -33,47 +33,47 @@ export const Container = styled.div`
         text-transform: uppercase;
         cursor: pointer;
     }
-    .banner-image{
+    .banner-image {
         width: 562px;
         height: 562px;
-        img{
+        img {
             width: 100%;
         }
     }
     /* Media Query */
     @media screen and (max-width: 1200px) {
         flex-direction: column;
-        .banner-letter{
+        .banner-letter {
             width: auto;
-            h1{
+            h1 {
                 font-size: 45px;
             }
         }
-        .banner-image{
+        .banner-image {
             margin-top: 5%;
             width: 362px;
             height: 362px;
         }
-        .btn-primary{
+        .btn-primary {
             margin-top: 30px;
         }
     }
-    @media screen and (max-width: 600px){
+    @media screen and (max-width: 600px) {
         padding: 0px;
         flex-direction: column;
         display: flex;
-        .banner-letter{
+        .banner-letter {
             width: 80vw;
             padding-top: 50px;
-            .btn-primary{
+            .btn-primary {
                 width: 70vw;
             }
         }
-        
-        .banner-image{
+
+        .banner-image {
             width: 70vw;
             padding-top: 50px;
-            img{
+            img {
                 width: 100%;
             }
         }
