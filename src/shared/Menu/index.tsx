@@ -7,7 +7,7 @@ import DesktopMenu from './Desktop';
 import SignInUp from 'shared/Modal/SignInUp';
 import { AuthContext } from 'contexts/AuthContext';
 
-const Menu = ({ isMobile }: { isMobile: boolean }) => {
+const Menu = ({ isMobile }: { isMobile?: boolean }) => {
     const { isAuthenticated, firstName } = useContext(AuthContext);
 
     const options = [

@@ -7,7 +7,7 @@ export const enviroment = {
     api_production: 'http://localhost:3333',
 };
 
-export function getAPIClient(ctx = undefined): AxiosInstance {
+export function getAPIClient(ctx?: any): AxiosInstance {
     const { 'kimochism.token': token } = parseCookies(ctx);
 
     const api = axios.create({
@@ -25,28 +25,26 @@ export function getAPIClient(ctx = undefined): AxiosInstance {
     return api;
 }
 
-const get = async (url, pathParams = [], queries = null, context = null) => {
+const get = async (url: string, pathParams = [], queries = null, context?: any) => {
     const buildedUrl = buildUrl(url, pathParams, queries);
-
-    console.log('buildedUrl: ', buildedUrl);
 
     const response = await getAPIClient(context).get(buildedUrl);
     return response.data;
 };
 
-const post = async (url, data, context = null) => {
+const post = async (url: string, data: any, context?: any) => {
     const buildedUrl = buildUrl(url);
     const response = await getAPIClient(context).post(buildedUrl, data);
     return response.data;
 };
 
-const put = async (url, data, pathParams = [], context = null) => {
+const put = async (url: string, data: any, pathParams = [], context?: any) => {
     const buildedUrl = buildUrl(url, pathParams, null);
     const response = await getAPIClient(context).put(buildedUrl, data);
     return response.data;
 };
 
-const del = async (url, pathParams = [], context = null) => {
+const del = async (url: string, pathParams = [], context = null) => {
     const buildedUrl = buildUrl(url, pathParams, null, context);
     const response = await getAPIClient(context).delete(buildedUrl);
     return response.data;
@@ -59,7 +57,7 @@ const buildUrl = (url: string, pathParams?: string[], queries?: any, context?: a
     return buildedUrl;
 };
 
-const buildQueries = queries => {
+const buildQueries = (queries: any) => {
     if (!queries) {
         return;
     }
@@ -71,7 +69,7 @@ const buildQueries = queries => {
         .join('&&');
 };
 
-const buildPathParams = (url, pathParams) => {
+const buildPathParams = (url: string, pathParams: string[]) => {
     if (!pathParams || !pathParams.length) {
         return url;
     }

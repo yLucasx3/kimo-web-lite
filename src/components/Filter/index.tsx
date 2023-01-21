@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import { SearchIcon } from 'assets/icons';
+import Image from 'next/image';
 
 const Filter = ({ handleGetFilters }: { handleGetFilters: (filters: any) => void; }) => {
     const [filters, setFilters] = useState({
@@ -26,7 +27,7 @@ const Filter = ({ handleGetFilters }: { handleGetFilters: (filters: any) => void
             <div className="filter-search">
                 <input type="text" placeholder="Oni Demon"></input>
                 <button>
-                    <img src={SearchIcon} width="16px" alt="Lupa de busca" />
+                   <SearchIcon />
                 </button>
             </div>
             <div className="filter">

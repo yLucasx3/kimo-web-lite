@@ -15,20 +15,15 @@ const MobileMenu = ({ options }) => {
         <Container>
             <h1 className="header-mobile">KIMOCHISM</h1>
             <div className="nav">
-                <img
-                    src={MenuHamburger}
-                    alt="Abrir ou fechar menu"
-                    className="invert"
-                    onClick={() => toggleSidebarIsOpen()}
-                    width={'24px'}
-                    height={'24px'}
-                />
+                <span  className="invert" onClick={() => toggleSidebarIsOpen()}>
+                    <MenuHamburger />
+                </span>
                 <div className="actions">
                     <span className="search-icon">
-                        <img src={SearchIcon} alt="Pesquisar" width={'20px'} />
+                        <SearchIcon />
                     </span>
                     <span>
-                        <img src={BagIcon} alt="Sacola" width={'20px'} className="invert" />
+                        <BagIcon />
                     </span>
                 </div>
             </div>

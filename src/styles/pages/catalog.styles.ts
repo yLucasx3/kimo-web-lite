@@ -19,10 +19,11 @@ export const Container = styled.div`
     /* right */
     .container-catalog-right {
         width: 1200px;
-        padding: 0px 0px;
+        padding: 0px;
         justify-content: center;
         flex-wrap: wrap;
         display: flex;
+        gap: 30px;
         a {
             color: black;
             text-decoration: none;

@@ -63,11 +63,9 @@ const CreditCard = ({ orderAmount }) => {
                 onFormMounted: error => {
                     if (error) return console.warn('Form Mounted handling error: ', error);
                     setDocumentAndEmailValues();
-                    console.log('Form mounted');
                 },
                 onFormUnmounted: error => {
                     if (error) return console.warn('Form Unmounted handling error: ', error);
-                    console.log('Form unmounted');
                 },
                 onPaymentMethodsReceived: (error, paymentMethods) => {
                     if (error) return console.warn('paymentMethods handling error: ', error);

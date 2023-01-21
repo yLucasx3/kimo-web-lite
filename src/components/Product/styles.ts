@@ -17,7 +17,6 @@ export const Container = styled.div`
     }
     .box-item-product-image {
         margin: 0px;
-        width: 100%;
         background-size: cover;
         background-position: center;
     }

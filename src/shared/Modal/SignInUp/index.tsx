@@ -3,12 +3,14 @@ import { Container } from './styles';
 import { AuthContext } from 'contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { cpf } from 'cpf-cnpj-validator';
-import { LS_KEY_CUSTOMER_BAG } from 'constants/all';
 import BaseModal from '../BaseModal';
-import PropTypes from 'prop-types';
 import InputMask from 'react-input-mask';
 import api from 'api';
-// import * as ls from 'utils/localStorage';
+interface SignInUpProps {
+    isOpen: boolean;
+    defaultIsSignIn: boolean;
+    handleClose: () => void;
+}
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
     useEffect(() => {
@@ -26,7 +28,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
     const [error, setError] = useState('');
     const [login, setLogin] = useState({
         email: '',
-        password: '',
+        password: '', 
     });
     const [register, setRegister] = useState({
         name: '',
@@ -350,10 +352,5 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
     );
 };
 
-SignInUp.propTypes = {
-    isOpen: PropTypes.bool,
-    handleClose: PropTypes.func,
-    defaultIsSignIn: PropTypes.bool,
-};
 
 export default SignInUp;

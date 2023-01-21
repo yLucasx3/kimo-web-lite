@@ -8,7 +8,7 @@ import { Menu, Newsletter, Footer } from 'shared';
 const Collections = () => {
     return (
         <Container>
-            <Menu isMobile/>
+            <Menu />
             <Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
             <h1 className="collections-h1">Coleções</h1>
             <div className="container-collections">

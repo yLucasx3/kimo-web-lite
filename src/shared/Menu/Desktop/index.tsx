@@ -30,7 +30,7 @@ const DesktopMenu = ({ options }) => {
                             {option.label}
                             {option.showIcon && (
                                 <span className="option-icon">
-                                    <img src={option.icon} alt={option.label} width={'22px'} />
+                                    {/* <img src={option.icon} alt={option.label} width={'22px'} /> */}
                                 </span>
                             )}
                         </span>

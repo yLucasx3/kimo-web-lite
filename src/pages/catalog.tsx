@@ -4,14 +4,20 @@ import { Menu, Footer, Newsletter } from 'shared';
 import { Filter, Product, Warning } from 'components';
 import api from 'api';
 
-const Catalog = ({ initialProducts, initialOptions, availablePages }) => {
+interface CatalogProps {
+    initialProducts: any,
+    initialOptions: any,
+    availablePages: any
+}
+
+const Catalog = ({ initialProducts, initialOptions, availablePages }: CatalogProps) => {
     const [products, setProducts] = useState(initialProducts);
     const [options, setOptions] = useState(initialOptions);
     const [filters, setFilters] = useState({});
 
-    useEffect(() => {
-        refetchProducts();
-    }, [options]);
+    // useEffect(() => {
+    //     refetchProducts();
+    // }, [options]);
 
     const refetchProducts = async () => {
         const { data } = await api.products.list(options);
@@ -21,7 +27,6 @@ const Catalog = ({ initialProducts, initialOptions, availablePages }) => {
 
     useEffect(() => {
         if (Object.keys(filters).length) {
-            // console.log(filters);
         }
     }, [filters]);
 
@@ -48,7 +53,9 @@ const Catalog = ({ initialProducts, initialOptions, availablePages }) => {
                         const allButtons = document.querySelector('.pages-buttons');
 
                         allButtons.childNodes.forEach(button => {
+                            // @ts-ignore
                             button.style.background = 'white';
+                            // @ts-ignore
                             button.style.color = 'black';
                         });
 
@@ -81,7 +88,7 @@ const Catalog = ({ initialProducts, initialOptions, availablePages }) => {
                     <h1 className="title-catalog">Catálogo</h1>
                     <div className="container-catalog-right">
                         {products &&
-                            products.map(product => {
+                            products.map((product: any) => {
                                 return <Product product={product} key={product._id} />;
                             })}
                     </div>

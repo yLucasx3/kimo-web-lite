@@ -3,9 +3,6 @@ import { Container } from 'styles/pages/product.styles';
 import { useRouter } from 'next/router';
 import { AuthContext } from 'contexts/AuthContext';
 import { toast } from 'react-toastify';
-import * as ls from 'utils/localStorage';
-import { v4 as uuidv4 } from 'uuid';
-import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
 import { RecentlyViewed, Suggestions, Warning } from 'components';
 import { Notification, Menu, Newsletter, Footer } from 'shared';
 import api from 'api';
@@ -29,20 +26,10 @@ const Product = ({ product }) => {
     });
     const [quantity, setQuantity] = useState(1);
     const [productAddedToCart, setProductAddedToCart] = useState(false);
-    const [freight, setFreight] = useState();
+    const [freight, setFreight] = useState<number>(0);
 
     const sizesRef = useRef(null);
     const colorsRef = useRef(null);
-
-    const [customerBagsStoraged, setCustomerBagsStoraged] = useState(
-        ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || [],
-    );
-
-    useEffect(() => {
-        if (customerBagsStoraged.customerBags) {
-            ls.storeItem(LS_KEY_CUSTOMER_BAG, customerBagsStoraged);
-        }
-    }, [customerBagsStoraged]);
 
     useEffect(() => {
         if (product && product.varieties) {
@@ -94,39 +81,6 @@ const Product = ({ product }) => {
         e.currentTarget.classList.add('selected-color');
     };
 
-    const addCustomerBagToStoraged = () => {
-        if (customerBagsStoraged.length <= 0) {
-            setCustomerBagsStoraged({ customerBags: [{ id: uuidv4(), quantity, options, productId: product._id }] });
-            return;
-        }
-
-        const allCustomerBagsStoraged = customerBagsStoraged.customerBags || customerBagsStoraged;
-
-        const customerBagExistsInStorageIndex = allCustomerBagsStoraged.findIndex(customerBagStoraged => {
-            return (
-                customerBagStoraged.productId === product._id &&
-                customerBagStoraged.options.color.name === options.color.name &&
-                customerBagStoraged.options.size === options.size
-            );
-        });
-
-        if (customerBagExistsInStorageIndex !== -1) {
-            allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity =
-                allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity + quantity;
-            setCustomerBagsStoraged({ customerBags: allCustomerBagsStoraged });
-            return;
-        }
-
-        setCustomerBagsStoraged({
-            customerBags: allCustomerBagsStoraged.concat({
-                id: uuidv4(),
-                quantity,
-                options,
-                productId: product._id,
-            }),
-        });
-    };
-
     const addProductToBag = () => {
         if (productAddedToCart) return;
 
@@ -147,7 +101,6 @@ const Product = ({ product }) => {
         }
 
         if (!isAuthenticated) {
-            addCustomerBagToStoraged();
             toast(<Notification router={router} options={options} />, {
                 hideProgressBar: true,
                 position: toast.POSITION.TOP_RIGHT,
@@ -166,7 +119,7 @@ const Product = ({ product }) => {
         });
 
         if (response) {
-            toast(<Notification history={history} options={options} />, {
+            toast(<Notification router={history} options={options} />, {
                 hideProgressBar: true,
                 position: toast.POSITION.TOP_RIGHT,
             });
@@ -207,7 +160,7 @@ const Product = ({ product }) => {
             if (response[0].Valor) {
                 setFreight(response[0].Valor);
             } else {
-                setFreight('---');
+                setFreight(0);
             }
         }
     };
@@ -221,9 +174,6 @@ const Product = ({ product }) => {
                     <div className="product-left">
                         <img
                             src={product.images[0].url}
-                            width={2500}
-                            height={2500}
-                            layout="responsive"
                             alt="Foto do produto"
                         />
                     </div>
@@ -286,7 +236,7 @@ const Product = ({ product }) => {
                         </div>
                         <div className="product-cep">
                             <span>Calcule o seu Frete</span>
-                            <input placeholder="00000-000" onChange={e => calculateZipCode(e)} maxLength="8" />
+                            <input placeholder="00000-000" onChange={e => calculateZipCode(e)} maxLength={8} />
                             <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="blank">
                                 Não sabe seu cep? Pesquise aqui &gt;{' '}
                             </a>

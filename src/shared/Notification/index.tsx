@@ -1,8 +1,12 @@
 import React from 'react';
 import { Container } from './styles';
-import PropTypes from 'prop-types';
 
-const Notification = ({ router, options }) => {
+interface NotificationProps {
+    router: any,
+    options: any
+}
+
+const Notification = ({ router, options }: NotificationProps) => {
     return (
         <Container>
             <img src="https://i.imgur.com/48spIdP.png" alt="Chopper - One Piece" />
@@ -19,11 +23,6 @@ const Notification = ({ router, options }) => {
             </div>
         </Container>
     );
-};
-
-Notification.propTypes = {
-    history: PropTypes.object,
-    options: PropTypes.object,
 };
 
 export default Notification;
